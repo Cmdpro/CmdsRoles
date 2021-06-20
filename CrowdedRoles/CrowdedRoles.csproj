@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+      
+    <Version>0.1.0</Version>
+    <Description>CrowdedRoles Api. Not an independent plugin</Description>
+    <Authors>Galster</Authors>
+
+    <GameVersion>2021.6.15s</GameVersion>
+    <!--Mappings>NuclearPowered/Mappings:0.4.0</Mappings-->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <Nullable>enable</Nullable>
+    <Company>CrowdedMods</Company>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <LangVersion>default</LangVersion>
+  </PropertyGroup>
+
+  <!--Credits to https://github.com/DorCoMaNdO/Reactor-Essentials and https://github.com/DaemonBeast/Reactor for a quick fix for 2021.5.10s-->
+  <ItemGroup>
+    <Reference Include="$(AmongUs)\BepInEx\core\*.dll">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="$(AmongUs)\BepInEx\unhollowed\*.dll">
+      <Private>false</Private>
+    </Reference>
+    <Reference Remove="$(AmongUs)\BepInEx\unhollowed\netstandard.dll;$(AmongUs)\BepInEx\unhollowed\Newtonsoft.Json.dll" />
+
+    <Reference Include="$(AmongUs)\BepInEx\plugins\Reactor.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  
+  <!--ItemGroup>
+    <Deobfuscate Include="$(AmongUs)\BepInEx\plugins\Reactor-$(GameVersion).dll" />
+    <PackageReference Include="Reactor.OxygenFilter.MSBuild" Version="0.3.0" />
+  </ItemGroup-->
+
+  <Target Name="Copy" AfterTargets="PostBuildEvent">
+      <Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFiles="$(AmongUs)/BepInEx/plugins/$(AssemblyName)-$(GameVersion).dll" />
+  </Target>
+</Project>
