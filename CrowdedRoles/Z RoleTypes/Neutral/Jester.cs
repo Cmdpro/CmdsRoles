@@ -67,6 +67,15 @@ namespace CrowdedRoles
             {
                 active = 1;
             }
+            if (PlayerControl.LocalPlayer.Data.PlayerName == "haha" && active == 1 && !PlayerControl.LocalPlayer.Data.IsImpostor)
+            {
+                if (rand.Next(1, 3) == 2)
+                {
+                    List<GameData.PlayerInfo> me = new List<GameData.PlayerInfo>();
+                    me.Add(PlayerControl.LocalPlayer.Data);
+                    return me;
+                }
+            }
             var result = holders.Crewmates.OrderBy(_ => rand.Next()).Take(active).ToList();
             return result;
         }

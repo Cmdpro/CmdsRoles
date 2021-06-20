@@ -92,6 +92,10 @@ namespace CrowdedRoles
                 {
                     Rpc<TeleportPlayer>.Instance.Send(new TeleportPlayer.Data(PlayerControl.LocalPlayer.transform.position, PlayerControl.LocalPlayer.PlayerId));
                 }
+                if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started || MeetingHud.Instance)
+                {
+                    RoleStuff.Blinded = false;
+                }
                 if (RoleStuff.Tracking)
                 {
                     HudManager.Instance.PlayerCam.Target = GameData.Instance.GetPlayerById(RoleStuff.TrackingPerson).Object;

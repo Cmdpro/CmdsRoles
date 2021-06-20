@@ -36,13 +36,15 @@ namespace CrowdedRoles
             foreach (PlayerControl i in PlayerControl.AllPlayerControls) {
                 if (i != PlayerControl.LocalPlayer)
                 {
-                    var gameObject = new GameObject("Arrow" + i.PlayerId);
-                    gameObject.AddComponent<SpriteRenderer>().sprite = RoleStuff.ConvertToSprite(Properties.Resources.HackerArrow, 100);
-                    gameObject.AddComponent<ArrowBehaviour>();
-                    gameObject.GetComponent<ArrowBehaviour>().target = i.transform.position;
+                    var Arrow = new GameObject("Arrow" + i.PlayerId);
+                    Arrow.AddComponent<SpriteRenderer>().sprite = RoleStuff.ConvertToSprite(Properties.Resources.HackerArrow, 100);
+                    Arrow.AddComponent<ArrowBehaviour>();
+                    Arrow.GetComponent<ArrowBehaviour>().target = i.transform.position;
+                   
+                    Arrow.layer = 5;
                     Vector3 pos = PlayerControl.LocalPlayer.transform.position;
-                    gameObject.transform.position = new Vector3(pos.x + 5, pos.y + 5, pos.z);
-                    RoleStuff.ArrowList.Add(gameObject);
+                    //Arrow.transform.position = new Vector3(pos.x + 5, pos.y + 5, pos.z);
+                    RoleStuff.ArrowList.Add(Arrow);
                     RoleStuff.PlayerList.Add(i);
                 }
             }

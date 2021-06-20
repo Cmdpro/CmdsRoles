@@ -110,7 +110,7 @@ namespace CrowdedRoles.Components
                 .AddCustomOption(ShrinkerActive)
                 .AddCustomOption(TrollActive)
                 .AddCustomOption(ReflectorActive)
-                .AddCustomOption(HackerActive)
+                //.AddCustomOption(HackerActive)
                 ;
             // OR
             // new OptionPluginWrapper(plugin)
