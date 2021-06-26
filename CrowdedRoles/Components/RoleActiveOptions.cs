@@ -88,6 +88,14 @@ namespace CrowdedRoles.Components
         {
             //OnValueChanged = v => RoleApiPlugin.Logger.LogDebug($"new test bool: {v}")
         };
+        public static CustomToggleOption ReverseJesterActive { get; } = new("Reverse Jester")
+        {
+            //OnValueChanged = v => RoleApiPlugin.Logger.LogDebug($"new test bool: {v}")
+        };
+        public static CustomToggleOption VentSeerActive { get; } = new("Vent Seer")
+        {
+            //OnValueChanged = v => RoleApiPlugin.Logger.LogDebug($"new test bool: {v}")
+        };
         public static void RegisterOptions(BasePlugin plugin)
         {
             new OptionPluginWrapper(plugin)
@@ -110,7 +118,9 @@ namespace CrowdedRoles.Components
                 .AddCustomOption(ShrinkerActive)
                 .AddCustomOption(TrollActive)
                 .AddCustomOption(ReflectorActive)
-                //.AddCustomOption(HackerActive)
+                .AddCustomOption(HackerActive)
+                .AddCustomOption(ReverseJesterActive)
+                .AddCustomOption(VentSeerActive)
                 ;
             // OR
             // new OptionPluginWrapper(plugin)

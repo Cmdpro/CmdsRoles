@@ -548,7 +548,7 @@ namespace CrowdedRoles
                             }
                         },
 
-                        cooldown: 55f,
+                        cooldown: 35f,
                         image: Properties.Resources.DetectiveSearch,
                         positionOffset: new UnityEngine.Vector2(0.125f, 0.125f),
                         () =>
@@ -556,7 +556,7 @@ namespace CrowdedRoles
                             return PlayerControl.LocalPlayer.Is<Helper>() && !PlayerControl.LocalPlayer.Data.IsDead && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started && !MeetingHud.Instance;
                         },
                         hudManager: hudManager,
-                        effectDuration: 10f,
+                        effectDuration: 20f,
                         onEffectEnd: () =>
                         {
                             if (RoleStuff.SearchingPerson != null)
@@ -758,6 +758,7 @@ namespace CrowdedRoles
                         effectDuration: 7f,
                         onEffectEnd: () =>
                         {
+                            RoleStuff.TrollRubberbandPlayer.transform.position = RoleStuff.OldPos;
                             Rpc<TeleportPlayer>.Instance.Send(new TeleportPlayer.Data(RoleStuff.OldPos, RoleStuff.TrollRubberbandPlayer.PlayerId));
                         }
                     );
@@ -820,6 +821,58 @@ namespace CrowdedRoles
                         onEffectEnd: () =>
                         {
                             Rpc<SetSpeed>.Instance.Send(new SetSpeed.Data(RoleStuff.OldSpeedTroll));
+                        }
+                    );
+
+                    return button;
+                }
+            }
+            public static class HackButton
+            {
+                public static Reactor.Button.CooldownButton button(HudManager hudManager)
+                {
+
+                    Reactor.Button.CooldownButton button = new Reactor.Button.CooldownButton(
+                        onClick: () =>
+                        {
+                            foreach (PlayerControl i in PlayerControl.AllPlayerControls)
+                            {
+                                if (i.PlayerId >= 0 && i.PlayerId <= GameData.Instance.PlayerCount - 1 && !i.Data.IsDead)
+                                {
+                                    var Arrow = new GameObject("Arrow" + i.PlayerId);
+                                    Arrow.AddComponent<SpriteRenderer>().sprite = RoleStuff.ConvertToSprite(Properties.Resources.HackerArrow, 100, new Vector2(0.5f, 0.5f));
+                                    Arrow.AddComponent<ArrowBehaviour>();
+                                    Arrow.GetComponent<ArrowBehaviour>().target = i.transform.position;
+
+                                    Arrow.GetComponent<SpriteRenderer>().sortingOrder = 255;
+                                    Vector3 pos = PlayerControl.LocalPlayer.transform.position;
+                                    //Arrow.transform.position = new Vector3(pos.x + 5, pos.y + 5, pos.z);
+                                    RoleStuff.ArrowList.Add(Arrow.GetComponent<ArrowBehaviour>());
+                                    RoleStuff.PlayerList.Add(i);
+                                }
+                            }
+                        },
+
+                        cooldown: 35f,
+                        image: Properties.Resources.HackerHack,
+                        positionOffset: new UnityEngine.Vector2(0.125f, 0.125f),
+                        () =>
+                        {
+                            return PlayerControl.LocalPlayer.Is<Hacker>() && !PlayerControl.LocalPlayer.Data.IsDead && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started && !MeetingHud.Instance;
+
+                        },
+                        hudManager: hudManager,
+                        effectDuration: 20f,
+                        onEffectEnd: () =>
+                        {
+                            foreach (ArrowBehaviour i in RoleStuff.ArrowList)
+                            {
+                                i.gameObject.GetComponent<SpriteRenderer>().sprite = null;
+                                GameObject.Destroy(i.gameObject);
+                                
+                            }
+                            RoleStuff.ArrowList.Clear();
+                            RoleStuff.PlayerList.Clear();
                         }
                     );
 

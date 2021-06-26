@@ -16,36 +16,31 @@ using CrowdedRoles.Components;
 namespace CrowdedRoles
 {
     [RegisterCustomRole]
-    public class Shrinker : BaseRole
+    public class VentSeer : BaseRole
     {
-        public Shrinker(BasePlugin plugin) : base(plugin)
+        public VentSeer(BasePlugin plugin) : base(plugin)
         {
         }
 
-        public override string Name { get; } = "Shrinker";
+        public override string Name { get; } = "Vent Seer";
         public override Color Color { get; } = Color.green;
         public override Visibility Visibility { get; } = Visibility.Myself;
-        public override string Description { get; } = "Shrink and move faster to HELP the crew";
+        public override string Description { get; } = "Look inside vents";
         public override bool CanKill(PlayerControl? target) => false;
         public override bool CanSabotage(SystemTypes? sabotage) => false;
-        public override bool CanVent(Vent _) => false;
+        public override bool CanVent(Vent _) => true;
         public override Team Team { get; } = Team.Crewmate;
 
         public override IEnumerable<GameData.PlayerInfo> SelectHolders(RoleHolders holders, byte limit)
         {
             var rand = new System.Random();
             int active = 0;
-            if (RoleActive.ShrinkerActive.Value == true)
+            if (RoleActive.VentSeerActive.Value == true)
             {
                 active = 1;
             }
-            
             var result = holders.Crewmates.OrderBy(_ => rand.Next()).Take(active).ToList();
             return result;
-        }
-        public override void OnRoleAssign(PlayerControl player)
-        {
-            RoleStuff.ShrinkerShrunken = false;
         }
 
 

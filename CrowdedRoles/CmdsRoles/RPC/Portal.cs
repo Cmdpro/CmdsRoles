@@ -49,14 +49,14 @@ namespace CmdsRoles
             if (data.Target == 1)
             {
                 var gameObject = new GameObject("Portal1");
-                gameObject.AddComponent<SpriteRenderer>().sprite = RoleStuff.ConvertToSprite(CrowdedRoles.Properties.Resources.Portal, 190);
+                gameObject.AddComponent<SpriteRenderer>().sprite = RoleStuff.ConvertToSprite(CrowdedRoles.Properties.Resources.Portal, 190, Vector2.zero);
                 gameObject.transform.position = new Vector2(innerNetObject.transform.position.x, innerNetObject.transform.position.y - innerNetObject.transform.localScale.y);
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
             }
             if (data.Target == 2)
             {
                 var gameObject = new GameObject("Portal2");
-                gameObject.AddComponent<SpriteRenderer>().sprite = RoleStuff.ConvertToSprite(CrowdedRoles.Properties.Resources.Portal, 190);
+                gameObject.AddComponent<SpriteRenderer>().sprite = RoleStuff.ConvertToSprite(CrowdedRoles.Properties.Resources.Portal, 190, Vector2.zero);
                 gameObject.transform.position = new Vector2(innerNetObject.transform.position.x - innerNetObject.transform.localScale.x, innerNetObject.transform.position.y - innerNetObject.transform.localScale.y);
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
                 

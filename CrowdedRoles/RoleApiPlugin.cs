@@ -135,16 +135,40 @@ namespace CrowdedRoles
                 {
                     RoleStuff.AntiKillTimer -= Time.deltaTime;
                 }
-                if (PlayerControl.LocalPlayer.Is<Hacker>())
+                foreach (ArrowBehaviour i in RoleStuff.ArrowList)
                 {
-                    foreach (GameObject i in RoleStuff.ArrowList)
+                    if (!RoleStuff.PlayerList[RoleStuff.ArrowList.IndexOf(i)].Data.IsDead) {
+                        i.target = RoleStuff.PlayerList[RoleStuff.ArrowList.IndexOf(i)].transform.position;
+                    }
+                    //if (RoleStuff.PlayerList[RoleStuff.ArrowList.IndexOf(i)].Data.IsDead) { 
+                    //    i.gameObject.GetComponent<SpriteRenderer>().sprite = RoleStuff.ConvertToSprite(Properties.Resources.HackerArrowDead, 100, new Vector2(0.5f, 0.5f));
+                    //    
+                    //}
+                    //if (Int32.Parse(i.gameObject.name) < 0 || Int32.Parse(i.gameObject.name) > GameData.Instance.PlayerCount || Byte.Parse(i.gameObject.name) == PlayerControl.LocalPlayer.PlayerId)
+                    //{
+                    //    Destroy(i.gameObject);
+                    //}
+                }
+                if (PlayerControl.LocalPlayer.Is<VentSeer>() && PlayerControl.LocalPlayer.inVent)
+                {
+                    foreach (PlayerControl i in PlayerControl.AllPlayerControls)
                     {
-                        i.GetComponent<ArrowBehaviour>().target = RoleStuff.PlayerList[RoleStuff.ArrowList.IndexOf(i)].transform.position;
-                        Vector3 pos = PlayerControl.LocalPlayer.transform.position;
-                        i.GetComponent<ArrowBehaviour>().transform.position = new Vector3(Math.Clamp(pos.x, pos.x - 1, pos.x + 1), Math.Clamp(pos.y, pos.y - 1, pos.y + 1), pos.z);
+                        if (i.inVent)
+                        {
+                            i.Visible = true;
+                        }
                     }
                 }
-
+                if (PlayerControl.LocalPlayer.Is<VentSeer>() && !PlayerControl.LocalPlayer.inVent)
+                {
+                    foreach (PlayerControl i in PlayerControl.AllPlayerControls)
+                    {
+                        if (i.inVent)
+                        {
+                            i.Visible = false;
+                        }
+                    }
+                }
                 var closestarget = PlayerControl.LocalPlayer.FindClosestTarget();
                 if (closestarget == null)
                 {

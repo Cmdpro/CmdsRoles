@@ -133,6 +133,26 @@ namespace CrowdedRoles.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] HackerArrowDead {
+            get {
+                object obj = ResourceManager.GetObject("HackerArrowDead", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] HackerHack {
+            get {
+                object obj = ResourceManager.GetObject("HackerHack", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Kill {
             get {
                 object obj = ResourceManager.GetObject("Kill", resourceCulture);

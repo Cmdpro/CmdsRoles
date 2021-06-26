@@ -5,6 +5,7 @@ using CmdsRoles;
 using System;
 using System.Collections;
 using static CrowdedRoles.CrowdedRoles.Buttons;
+using CrowdedRoles.Components;
 
 namespace CrowdedRoles
 {
@@ -34,8 +35,7 @@ namespace CrowdedRoles
             public static CooldownButton Slow;
             public static CooldownButton Rubberband;
             public static CooldownButton Reflect;
-            public static CooldownButton Portal1;
-            public static CooldownButton Portal2;
+            public static CooldownButton Hack;
 
             [HarmonyPatch(typeof(HudManager), nameof(HudManager.Start))]
             public static class HudManagerStart
@@ -64,9 +64,24 @@ namespace CrowdedRoles
                     Slow = SlowButton.button(__instance);
                     Rubberband = RubberbandButton.button(__instance);
                     Reflect = ReflectButton.button(__instance);
+                    Hack = HackButton.button(__instance);
                 }
             }
-            
+
+            [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CastVote))]
+            public static class VotePatch
+            {
+                public static void Postfix(MeetingHud __instance)
+                {
+                    if (RoleSettings.ExitMeetingVote.Value)
+                    {
+                        GameData.PlayerInfo data = PlayerControl.LocalPlayer.Data;
+                        DestroyableSingleton<HudManager>.Instance.Chat.SetPosition(null);
+                        DestroyableSingleton<HudManager>.Instance.Chat.SetVisible(data.IsDead);
+                        DestroyableSingleton<HudManager>.Instance.Chat.BanButton.Hide();
+                    }
+                }
+            }
         }
     }
 }

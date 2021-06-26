@@ -6,6 +6,7 @@ using Il2CppSystem.Collections;
 using System.Collections.Generic;
 using Reactor.Button;
 using Assets.CoreScripts;
+using CrowdedRoles.Extensions;
 
 namespace CrowdedRoles
 {
@@ -59,17 +60,27 @@ namespace CrowdedRoles
         public static GameObject Portal1;
         public static GameObject Portal2;
         public static float PortalImmuneTime;
-        public static List<GameObject> ArrowList = new List<GameObject>();
+        public static List<ArrowBehaviour> ArrowList = new List<ArrowBehaviour>();
         public static List<PlayerControl> PlayerList = new List<PlayerControl>();
 
-        public static Sprite ConvertToSprite(Byte[] bytes, int PixelsPerUnit)
+        public static Sprite ConvertToSprite(Byte[] bytes, int PixelsPerUnit, Vector2 pivot)
         {
             // create a Texture2D object that is used to stream data into Texture2D
             Texture2D texture = new Texture2D(1, 1);
             ImageConversion.LoadImage(texture, bytes); // stream data into Texture2D
                                                        // Create a Sprite, to Texture2D object basis
-            Sprite sp = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero, PixelsPerUnit);
+            Sprite sp = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), pivot, PixelsPerUnit);
             return sp;
+        }
+        public static void StuffToDoOnIntroCutscene()
+        {
+            RoleStuff.Blinded = false;
+            RoleStuff.ElecIsStunned = false;
+            RoleStuff.RevengeIsStunned = false;
+            RoleStuff.Tracking = false;
+            RoleStuff.PlayerList.Clear();
+            RoleStuff.ArrowList.Clear();
+            
         }
         public static void ResetButton(CooldownButton button)
         {

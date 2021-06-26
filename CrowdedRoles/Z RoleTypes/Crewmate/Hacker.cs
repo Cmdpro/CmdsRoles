@@ -25,7 +25,7 @@ namespace CrowdedRoles
         public override string Name { get; } = "Hacker";
         public override Color Color { get; } = Color.green;
         public override Visibility Visibility { get; } = Visibility.Myself;
-        public override string Description { get; } = "Create Portals";
+        public override string Description { get; } = "Find where everyone is";
         public override bool CanKill(PlayerControl? target) => false;
         public override bool CanSabotage(SystemTypes? sabotage) => false;
         public override bool CanVent(Vent _) => false;
@@ -33,21 +33,7 @@ namespace CrowdedRoles
 
         public override void OnRoleAssign(PlayerControl player)
         {
-            foreach (PlayerControl i in PlayerControl.AllPlayerControls) {
-                if (i != PlayerControl.LocalPlayer)
-                {
-                    var Arrow = new GameObject("Arrow" + i.PlayerId);
-                    Arrow.AddComponent<SpriteRenderer>().sprite = RoleStuff.ConvertToSprite(Properties.Resources.HackerArrow, 100);
-                    Arrow.AddComponent<ArrowBehaviour>();
-                    Arrow.GetComponent<ArrowBehaviour>().target = i.transform.position;
-                   
-                    Arrow.layer = 5;
-                    Vector3 pos = PlayerControl.LocalPlayer.transform.position;
-                    //Arrow.transform.position = new Vector3(pos.x + 5, pos.y + 5, pos.z);
-                    RoleStuff.ArrowList.Add(Arrow);
-                    RoleStuff.PlayerList.Add(i);
-                }
-            }
+            
         }
         public override IEnumerable<GameData.PlayerInfo> SelectHolders(RoleHolders holders, byte limit)
         {

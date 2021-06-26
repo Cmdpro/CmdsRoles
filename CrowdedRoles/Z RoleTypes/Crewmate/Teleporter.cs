@@ -24,7 +24,7 @@ namespace CrowdedRoles
         }
 
         public override string Name { get; } = "Teleporter";
-        public override Color Color { get; } = Color.yellow;
+        public override Color Color { get; } = Color.magenta;
         public override Visibility Visibility { get; } = Visibility.Myself;
         public override string Description { get; } = "Teleport to players";
         public override bool CanKill(PlayerControl? target) => false;

@@ -203,12 +203,7 @@ namespace CrowdedRoles.Patches
         {
             public static bool Prefix(ref bool __result, IntroCutscene._CoBegin_d__14 __instance)
             {
-                RoleStuff.Blinded = false;
-                RoleStuff.ElecIsStunned = false;
-                RoleStuff.RevengeIsStunned = false;
-                RoleStuff.Tracking = false;
-                RoleStuff.PlayerList.Clear();
-                RoleStuff.ArrowList.Clear();
+                RoleStuff.StuffToDoOnIntroCutscene();
                 // wait until we set our roles to prevent bugs
                 if (!RoleManager.RolesSet)
                 {
@@ -279,6 +274,10 @@ namespace CrowdedRoles.Patches
                 if (__instance.exiled.Is<Jester>())
                 {
                     PlayerControl.LocalPlayer.RpcCustomEndGame<Jester.JesterWon>();
+                }
+                if (__instance.exiled.Is<ReverseJester>())
+                {
+                    PlayerControl.LocalPlayer.RpcCustomEndGame<ReverseJester.ReverseJesterLost>();
                 }
             }
         }

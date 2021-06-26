@@ -17,32 +17,32 @@ using CrowdedRoles.Components;
 namespace CrowdedRoles
 {
     [RegisterCustomRole]
-    public class Jester : BaseRole
+    public class ReverseJester : BaseRole
     {
-        public Jester(BasePlugin plugin) : base(plugin)
+        public ReverseJester(BasePlugin plugin) : base(plugin)
         {
         }
 
-        public override string Name { get; } = "Jester";
+        public override string Name { get; } = "Reverse\nJester";
         public override Color Color { get; } = Color.magenta;
         public override Visibility Visibility { get; } = Visibility.Myself;
-        public override string Description { get; } = "Get voted out to win";
+        public override string Description { get; } = "Dont get voted out or you loose";
         public override bool CanKill(PlayerControl? target) => false;
         public override bool CanSabotage(SystemTypes? sabotage) => false;
         public override bool CanVent(Vent _) => true;
-        public override Team Team { get; } = Team.Alone;
+        public override Team Team { get; } = Team.Crewmate;
 
         [RegisterCustomGameOverReason]
-        public class JesterWon : CustomGameOverReason
+        public class ReverseJesterLost : CustomGameOverReason
         {
-            public JesterWon(BasePlugin plugin) : base(plugin)
+            public ReverseJesterLost(BasePlugin plugin) : base(plugin)
             {
             }
 
-            public override string Name { get; } = "The Jester Won";
-            public override string WinText { get; } = "The Jester Won";
+            public override string Name { get; } = "The Reverse\n Jester Lost";
+            public override string WinText { get; } = "The Reverse\n Jester Lost";
             public override IEnumerable<GameData.PlayerInfo> Winners =>
-                GameData.Instance.AllPlayers.ToArray().Where(p => p.Is<Jester>());
+                GameData.Instance.AllPlayers.ToArray().Where(p => !p.Is<ReverseJester>() && p.IsImpostor);
 
             public override Color GetWinTextColor(bool youWon)
             {
@@ -56,14 +56,15 @@ namespace CrowdedRoles
         }
         public override void AssignTasks(PlayerTaskList taskList, IEnumerable<GameData.TaskInfo> defaultTasks)
         {
-            taskList.AddStringTask("Get Ejected");
+            taskList.AddStringTask("Dont Get Ejected");
+            taskList.AddNormalTasks(defaultTasks);
             taskList.TaskCompletion = TaskCompletion.Required;
         }
         public override IEnumerable<GameData.PlayerInfo> SelectHolders(RoleHolders holders, byte limit)
         {
             var rand = new System.Random();
             int active = 0;
-            if (RoleActive.JesterActive.Value == true)
+            if (RoleActive.ReverseJesterActive.Value == true)
             {
                 active = 1;
             }

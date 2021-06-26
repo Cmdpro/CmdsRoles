@@ -52,7 +52,7 @@ namespace CmdsRoles
             if (data.Type == 1)
             {
                 var gameObject = new GameObject("Gun");
-                gameObject.AddComponent<SpriteRenderer>().sprite = RoleStuff.ConvertToSprite(CrowdedRoles.Properties.Resources.Gun, 200);
+                gameObject.AddComponent<SpriteRenderer>().sprite = RoleStuff.ConvertToSprite(CrowdedRoles.Properties.Resources.Gun, 200, Vector2.zero);
                 gameObject.transform.position = new Vector2(innerNetObject.transform.position.x, innerNetObject.transform.position.y - innerNetObject.transform.localScale.y);
                 gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
             }
