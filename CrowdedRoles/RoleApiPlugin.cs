@@ -138,7 +138,8 @@ namespace CrowdedRoles
                         if (closestplayer.Is<Reflector>() && RoleStuff.ReflectorReflecting)
                         {
                             Rpc<SelfDestruct>.Instance.Send(new SelfDestruct.Data());
-                        } else
+                        } 
+                        else
                         {
                             Rpc<Kill>.Instance.Send(new Kill.Data(closestplayer.PlayerId));
                         }
