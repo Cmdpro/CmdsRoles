@@ -99,7 +99,7 @@ namespace CrowdedRoles.Patches
                     ) * 1.5f;
                     player.SetFlipX(i % 2 == 0);
                     PlayerControl.SetPlayerMaterialColors(data.ColorId, player.Body);
-                    DestroyableSingleton<HatManager>.Instance.SetSkin(player.SkinSlot, data.SkinId); // SetSkin
+                    DestroyableSingleton<HatManager>.Instance.SetSkin(player.Skin.GetComponent<SpriteRenderer>(), data.SkinId); // SetSkin
                     player.HatSlot.SetHat(data.HatId, data.ColorId);
                     PlayerControl.SetPetImage(data.PetId, data.ColorId, player.PetSlot);
                     float scale = 1f - oddness * 0.075f;
@@ -156,7 +156,7 @@ namespace CrowdedRoles.Patches
                     ) * 1.5f;
                     player.SetFlipX(i % 2 == 0);
                     PlayerControl.SetPlayerMaterialColors(data.ColorId, player.Body);
-                    DestroyableSingleton<HatManager>.Instance.SetSkin(player.SkinSlot, data.SkinId); // SetSkin
+                    DestroyableSingleton<HatManager>.Instance.SetSkin(player.Skin.GetComponent<SpriteRenderer>(), data.SkinId); // SetSkin
                     player.HatSlot.SetHat(data.HatId, data.ColorId);
                     PlayerControl.SetPetImage(data.PetId, data.ColorId, player.PetSlot);
                     float scale = 1f - oddness * 0.075f;
@@ -203,7 +203,7 @@ namespace CrowdedRoles.Patches
         {
             public static bool Prefix(ref bool __result, IntroCutscene._CoBegin_d__14 __instance)
             {
-                RoleStuff.StuffToDoOnIntroCutscene();
+                RoleStuff.StartGameStuff();
                 // wait until we set our roles to prevent bugs
                 if (!RoleManager.RolesSet)
                 {

@@ -63,6 +63,16 @@ namespace CrowdedRoles.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Admin {
+            get {
+                object obj = ResourceManager.GetObject("Admin", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] AntiKill {
             get {
                 object obj = ResourceManager.GetObject("AntiKill", resourceCulture);
@@ -76,6 +86,16 @@ namespace CrowdedRoles.Properties {
         internal static byte[] Blindfold {
             get {
                 object obj = ResourceManager.GetObject("Blindfold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Cameras {
+            get {
+                object obj = ResourceManager.GetObject("Cameras", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -233,6 +253,16 @@ namespace CrowdedRoles.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Shapeshift {
+            get {
+                object obj = ResourceManager.GetObject("Shapeshift", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Shock {
             get {
                 object obj = ResourceManager.GetObject("Shock", resourceCulture);
@@ -316,6 +346,16 @@ namespace CrowdedRoles.Properties {
         internal static byte[] TrollTp {
             get {
                 object obj = ResourceManager.GetObject("TrollTp", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Vitals {
+            get {
+                object obj = ResourceManager.GetObject("Vitals", resourceCulture);
                 return ((byte[])(obj));
             }
         }

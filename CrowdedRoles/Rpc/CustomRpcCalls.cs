@@ -40,6 +40,7 @@
         ResizePlayer,
         SetSpeed,
         ToggleReflect,
-        Portal
+        Portal,
+        SwapEverything
     }
 }

@@ -47,6 +47,7 @@ namespace CrowdedRoles
 #endif
             Harmony.PatchAll();
             Logger = Log;
+            
         }
 
 
@@ -62,9 +63,33 @@ namespace CrowdedRoles
         }
         public void Update()
         {
+            ModManager.Instance.ShowModStamp();
             if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
             {
-
+                if (PlayerControl.LocalPlayer.Is<Shrinker>() && PlayerControl.LocalPlayer.Data.IsDead)
+                {
+                    PlayerControl.LocalPlayer.gameObject.transform.localScale = RoleStuff.OldSize;
+                    PlayerControl.GameOptions.PlayerSpeedMod = RoleStuff.OldSpeed;
+                }
+                foreach (PlayerControl i in PlayerControl.AllPlayerControls)
+                {
+                    if (i.inVent)
+                    {
+                        if (PlayerControl.LocalPlayer.Is<VentSeer>() && PlayerControl.LocalPlayer.inVent && i != PlayerControl.LocalPlayer && !i.Data.IsDead && !i.Data.Disconnected)
+                        {
+                            i.Visible = true;
+                        } else
+                        {
+                            if (!i.Data.IsDead && !i.Data.Disconnected)
+                            {
+                                i.Visible = false;
+                            }
+                        }
+                    } else
+                    {
+                        i.Visible = true;
+                    }
+                }
                 if (RoleStuff.isProtected == true)
                 {
 
@@ -105,12 +130,18 @@ namespace CrowdedRoles
                 if (RoleStuff.isCursed == true)
                 {
                     
-                    var closestplayer = PlayerControl.LocalPlayer.FindClosestTarget();
+                    var closestplayer = RoleStuff.FindClosestCrewmate();
                     if (closestplayer != null && closestplayer.Data.IsImpostor == false && closestplayer.Data.IsDead == false)
                     {
                         closestplayer.nameText.color = new Color((0.0f), (0.0f), (0.0f), 1);
-                        Rpc<Kill>.Instance.Send(new Kill.Data(closestplayer.PlayerId));
-                        PlayerControl.LocalPlayer.StartCoroutine(PlayerControl.LocalPlayer.KillAnimations.Random<KillAnimation>().CoPerformKill(PlayerControl.LocalPlayer, closestplayer));
+                        
+                        if (closestplayer.Is<Reflector>() && RoleStuff.ReflectorReflecting)
+                        {
+                            Rpc<SelfDestruct>.Instance.Send(new SelfDestruct.Data());
+                        } else
+                        {
+                            Rpc<Kill>.Instance.Send(new Kill.Data(closestplayer.PlayerId));
+                        }
                         RoleStuff.isCursed = false;
 
                     }
@@ -149,16 +180,7 @@ namespace CrowdedRoles
                     //    Destroy(i.gameObject);
                     //}
                 }
-                if (PlayerControl.LocalPlayer.Is<VentSeer>() && PlayerControl.LocalPlayer.inVent)
-                {
-                    foreach (PlayerControl i in PlayerControl.AllPlayerControls)
-                    {
-                        if (i.inVent)
-                        {
-                            i.Visible = true;
-                        }
-                    }
-                }
+                
                 if (PlayerControl.LocalPlayer.Is<VentSeer>() && !PlayerControl.LocalPlayer.inVent)
                 {
                     foreach (PlayerControl i in PlayerControl.AllPlayerControls)
@@ -175,12 +197,14 @@ namespace CrowdedRoles
                     HudPatch.Curse.CanUse_ = false;
                     HudPatch.Dissapear.CanUse_ = false;
                     HudPatch.Blind.CanUse_ = false;
+                    HudPatch.Shapeshift.CanUse_ = false;
                 }
                 else
                 {
                     HudPatch.Curse.CanUse_ = true;
                     HudPatch.Dissapear.CanUse_ = true;
                     HudPatch.Blind.CanUse_ = true;
+                    HudPatch.Shapeshift.CanUse_ = true;
                 }
                 var closestargetall = RoleStuff.FindClosestTargetAll();
                 if (closestargetall == null)

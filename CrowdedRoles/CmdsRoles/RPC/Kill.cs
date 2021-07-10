@@ -42,6 +42,7 @@ namespace CrowdedRoles
 
         public override void Handle(PlayerControl innerNetObject, Data data)
         {
+            RoleStuff.DoServerKillStuff(data.Target);
             var target = GameData.Instance.GetPlayerById(data.Target);
             //GameOptions.PlayerSpeedMod
             innerNetObject.MurderPlayer(target.Object);

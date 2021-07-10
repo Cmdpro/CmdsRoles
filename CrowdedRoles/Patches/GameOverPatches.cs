@@ -38,6 +38,7 @@ namespace CrowdedRoles.Patches
             private static readonly Color GhostColor = new (1f, 1f, 1f, 0.5f);
             private static bool Prefix(EndGameManager __instance)
             {
+                RoleStuff.EndGameStuff();
                 if (!TempData.EndReason.IsCustom())
                 {
                     return true;
@@ -81,7 +82,7 @@ namespace CrowdedRoles.Patches
                     else
                     {
                         player.SetFlipX(i % 2 == 0);
-                        DestroyableSingleton<HatManager>.Instance.SetSkin(player.SkinSlot, winner.SkinId); // SetSkin
+                        DestroyableSingleton<HatManager>.Instance.SetSkin(player.Skin.GetComponent<SpriteRenderer>(), winner.SkinId); // SetSkin
                     }
                     PlayerControl.SetPlayerMaterialColors(winner.ColorId, player.Body);
                     player.HatSlot.SetHat(winner.HatId, winner.ColorId);

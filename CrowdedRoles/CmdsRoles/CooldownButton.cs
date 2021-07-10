@@ -95,6 +95,7 @@ namespace Reactor.Button
         }
         private void Update()
         {
+            KillButtonManager.killText.text = "";
             if (KillButtonManager.transform.localPosition.x > 0f)
                 KillButtonManager.transform.localPosition = new Vector3((KillButtonManager.transform.localPosition.x + 1.3f) * -1, KillButtonManager.transform.localPosition.y, KillButtonManager.transform.localPosition.z) + new Vector3(PositionOffset.x, PositionOffset.y);
             PassiveButton button = KillButtonManager.GetComponent<PassiveButton>();

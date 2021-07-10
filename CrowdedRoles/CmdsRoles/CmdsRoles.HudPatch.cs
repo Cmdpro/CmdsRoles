@@ -36,6 +36,7 @@ namespace CrowdedRoles
             public static CooldownButton Rubberband;
             public static CooldownButton Reflect;
             public static CooldownButton Hack;
+            public static CooldownButton Shapeshift;
 
             [HarmonyPatch(typeof(HudManager), nameof(HudManager.Start))]
             public static class HudManagerStart
@@ -65,10 +66,11 @@ namespace CrowdedRoles
                     Rubberband = RubberbandButton.button(__instance);
                     Reflect = ReflectButton.button(__instance);
                     Hack = HackButton.button(__instance);
+                    Shapeshift = ShapeshiftButton.button(__instance);
                 }
             }
 
-            [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CastVote))]
+            /*[HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CastVote))]
             public static class VotePatch
             {
                 public static void Postfix(MeetingHud __instance)
@@ -81,7 +83,7 @@ namespace CrowdedRoles
                         DestroyableSingleton<HudManager>.Instance.Chat.BanButton.Hide();
                     }
                 }
-            }
+            }*/
         }
     }
 }

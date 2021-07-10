@@ -26,7 +26,7 @@ namespace CrowdedRoles
         public override string Name { get; } = "Reverse\nJester";
         public override Color Color { get; } = Color.magenta;
         public override Visibility Visibility { get; } = Visibility.Myself;
-        public override string Description { get; } = "Dont get voted out or you loose";
+        public override string Description { get; } = "Dont get voted out or you lose";
         public override bool CanKill(PlayerControl? target) => false;
         public override bool CanSabotage(SystemTypes? sabotage) => false;
         public override bool CanVent(Vent _) => true;
@@ -56,7 +56,7 @@ namespace CrowdedRoles
         }
         public override void AssignTasks(PlayerTaskList taskList, IEnumerable<GameData.TaskInfo> defaultTasks)
         {
-            taskList.AddStringTask("Dont Get Ejected");
+            taskList.AddStringTask("Don't Get Ejected");
             taskList.AddNormalTasks(defaultTasks);
             taskList.TaskCompletion = TaskCompletion.Required;
         }

@@ -118,11 +118,17 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Admin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>admin.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="AntiKill" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>antikill.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Blindfold" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>blindfold.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Cameras" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>cameras.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>copy.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -169,6 +175,9 @@
   <data name="SelectTeleport" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>selectteleport.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Shapeshift" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>shapeshift.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Shock" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>shock.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -195,6 +204,9 @@
   </data>
   <data name="TrollTp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>trolltp.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Vitals" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>vitals.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Watch" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>watch.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

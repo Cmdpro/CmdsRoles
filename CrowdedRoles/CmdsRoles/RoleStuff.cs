@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using Reactor.Button;
 using Assets.CoreScripts;
 using CrowdedRoles.Extensions;
+using Reactor.Networking;
+using CmdsRoles;
+using CrowdedRoles.Components;
+using static CrowdedRoles.CrowdedRoles;
 
 namespace CrowdedRoles
 {
@@ -23,8 +27,8 @@ namespace CrowdedRoles
         public static byte TrackingPerson;
         public static byte RoleId;
         public static bool hasSelected;
-        public static PlayerControl Selected;
-        public static PlayerControl RevengeSelected;
+        public static PlayerControl? Selected;
+        public static PlayerControl? RevengeSelected;
         public static bool DevMode;
         public static uint oldpet;
         public static bool OutOfBody;
@@ -37,9 +41,9 @@ namespace CrowdedRoles
         public static float OldSpeedTroll;
         public static bool ReflectorReflecting;
         public static float AntiKillTimer;
-        public static PlayerControl SearchingPerson;
+        public static PlayerControl? SearchingPerson;
         public static float OldReportRadius;
-        public static Vent lastVent;
+        public static Vent? lastVent;
         public static Color BlindOriginalColor;
         public static byte BlindedPerson;
         public static float BlindTimer;
@@ -56,12 +60,16 @@ namespace CrowdedRoles
         public static float OldSpeed;
         public static bool ShrinkerShrunken;
         public static Vector2 OldPos;
-        public static PlayerControl TrollRubberbandPlayer;
-        public static GameObject Portal1;
-        public static GameObject Portal2;
+        public static PlayerControl? TrollRubberbandPlayer;
         public static float PortalImmuneTime;
         public static List<ArrowBehaviour> ArrowList = new List<ArrowBehaviour>();
         public static List<PlayerControl> PlayerList = new List<PlayerControl>();
+        public static GameObject? Portal1;
+        public static GameObject? Portal2;
+        public static float TrollSpeed;
+        public static float ShrinkerSpeed;
+        public static bool TrollSpeedActive;
+        public static bool ShrinkerSpeedActive;
 
         public static Sprite ConvertToSprite(Byte[] bytes, int PixelsPerUnit, Vector2 pivot)
         {
@@ -72,7 +80,12 @@ namespace CrowdedRoles
             Sprite sp = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), pivot, PixelsPerUnit);
             return sp;
         }
-        public static void StuffToDoOnIntroCutscene()
+        public static void StartGameStuff()
+        {
+            BothGameStuff();
+            
+        }
+        public static void BothGameStuff()
         {
             RoleStuff.Blinded = false;
             RoleStuff.ElecIsStunned = false;
@@ -80,7 +93,40 @@ namespace CrowdedRoles
             RoleStuff.Tracking = false;
             RoleStuff.PlayerList.Clear();
             RoleStuff.ArrowList.Clear();
-            
+            PlayerControl.LocalPlayer.moveable = true;
+        }
+        public static void EndGameStuff()
+        {
+            BothGameStuff();
+            if (TrollSpeedActive)
+            {
+                Rpc<SetSpeed>.Instance.Send(new SetSpeed.Data(RoleStuff.OldSpeedTroll));
+            }
+            if (ShrinkerShrunken)
+            {
+                PlayerControl.GameOptions.PlayerSpeedMod = OldSpeed;
+            }
+        }
+        public static void DoClientKillStuff(byte target)
+        {
+            if (PlayerControl.LocalPlayer.Is<Vampire>())
+            {
+                if (RoleStuff.MaxVampireCooldown > RoleSettings.VampireMin.Value)
+                {
+                    RoleStuff.MaxVampireCooldown -= 1;
+                }
+                if (RoleStuff.MaxVampireCooldown > RoleSettings.VampireMin.Value)
+                {
+                    RoleStuff.MaxVampireCooldown -= 1;
+                }
+            }
+            HudPatch.Dissapear.Timer = HudPatch.Dissapear.MaxTimer;
+            HudPatch.Curse.Timer = HudPatch.Curse.MaxTimer;
+            HudPatch.Shapeshift.Timer = HudPatch.Shapeshift.MaxTimer;
+        }
+        public static void DoServerKillStuff(byte target)
+        {
+
         }
         public static void ResetButton(CooldownButton button)
         {
@@ -153,7 +199,37 @@ namespace CrowdedRoles
             }
             return result;
         }
-        
+        public static PlayerControl FindClosestCrewmate()
+        {
+            PlayerControl result = null;
+            float num = GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, 2)];
+            if (!ShipStatus.Instance)
+            {
+                return null;
+            }
+            Vector2 truePosition = PlayerControl.LocalPlayer.GetTruePosition();
+            Il2CppSystem.Collections.Generic.List<GameData.PlayerInfo> allPlayers = GameData.Instance.AllPlayers;
+            for (int i = 0; i < allPlayers.Count; i++)
+            {
+                GameData.PlayerInfo playerInfo = allPlayers[i];
+
+                if (!playerInfo.Disconnected && playerInfo.PlayerId != PlayerControl.LocalPlayer.PlayerId && !playerInfo.IsDead && !playerInfo.IsImpostor)
+                {
+                    PlayerControl @object = playerInfo.Object;
+                    if (@object)
+                    {
+                        Vector2 vector = @object.GetTruePosition() - truePosition;
+                        float magnitude = vector.magnitude;
+                        if (magnitude <= num && !PhysicsHelpers.AnyNonTriggersBetween(truePosition, vector.normalized, magnitude, Constants.ShipAndObjectsMask))
+                        {
+                            result = @object;
+                            num = magnitude;
+                        }
+                    }
+                }
+            }
+            return result;
+        }
         public static PlayerControl FindClosestTargetDet()
         {
             PlayerControl result = null;

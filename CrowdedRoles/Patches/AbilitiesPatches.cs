@@ -28,17 +28,7 @@ namespace CrowdedRoles.Patches
                 }
                 if (PlayerControl.LocalPlayer.killTimer <= 0)
                 {
-                    if (PlayerControl.LocalPlayer.Is<Vampire>())
-                    {
-                        if (RoleStuff.MaxVampireCooldown > RoleSettings.VampireMin.Value)
-                        {
-                            RoleStuff.MaxVampireCooldown -= 1;
-                        }
-                        if (RoleStuff.MaxVampireCooldown > RoleSettings.VampireMin.Value)
-                        {
-                            RoleStuff.MaxVampireCooldown -= 1;
-                        }
-                    }
+                    RoleStuff.DoClientKillStuff(__instance.CurrentTarget.PlayerId);
                     if (__instance.CurrentTarget.Is<Reflector>() && RoleStuff.ReflectorReflecting)
                     {
                         Rpc<SelfDestruct>.Instance.Send(new SelfDestruct.Data());
@@ -173,19 +163,6 @@ namespace CrowdedRoles.Patches
                 }
             }
 
-            [HarmonyPostfix]
-            [HarmonyPatch(typeof(UseButtonManager), nameof(UseButtonManager.SetTarget))]
-            public static void UseButtonManager_SetTarget(UseButtonManager __instance, [HarmonyArgument(0)] IUsable? target)
-            {
-                if (target == null && PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer.Data != null &&
-                    (PlayerControl.LocalPlayer.GetRole()?.CanSabotage(null) ?? false) &&
-                    PlayerControl.LocalPlayer.CanMove)
-                {
-                    __instance.UseButton.sprite = TranslationController.Instance.GetImage(ImageNames.SabotageButton);
-                    CooldownHelpers.SetCooldownNormalizedUvs(__instance.UseButton);
-                    __instance.UseButton.color = UseButtonManager.EnabledColor;
-                }
-            }
 
             [HarmonyPrefix]
             [HarmonyPatch(typeof(UseButtonManager), nameof(UseButtonManager.DoClick))]

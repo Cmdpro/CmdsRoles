@@ -20,10 +20,6 @@ namespace CrowdedRoles.Components
         {
             //OnValueChanged = v => RoleApiPlugin.Logger.LogDebug($"new test bool: {v}")
         };
-        public static CustomToggleOption ExitMeetingVote { get; } = new("Exit Meeting On Vote")
-        {
-            //OnValueChanged = v => RoleApiPlugin.Logger.LogDebug($"new test bool: {v}")
-        };
         public static void RegisterOptions(BasePlugin plugin)
         {
 
@@ -31,7 +27,7 @@ namespace CrowdedRoles.Components
                 .AddCustomOption(DetHelpKnow)
                 .AddCustomOption(DetHelpShare)
                 .AddCustomOption(VampireMin)
-                .AddCustomOption(ExitMeetingVote)
+                //.AddCustomOption(ExitMeetingVote)
                 ;
             // OR
             // new OptionPluginWrapper(plugin)

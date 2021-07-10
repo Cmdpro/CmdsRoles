@@ -34,6 +34,7 @@ namespace CrowdedRoles
                             var closestplr = PlayerControl.LocalPlayer.FindClosestTarget();
                             if (closestplr != null)
                             {
+                                PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.GameOptions.KillCooldown);
                                 Rpc<Curse>.Instance.Send(new Curse.Data(closestplr.PlayerId));
                             }
                         },
@@ -175,6 +176,7 @@ namespace CrowdedRoles
                             var closestplr = PlayerControl.LocalPlayer.FindClosestTarget();
                             if (closestplr != null)
                             {
+                                PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.GameOptions.KillCooldown);
                                 closestplr.Die(DeathReason.Kill);
                                 Rpc<KillNoBody>.Instance.Send(new KillNoBody.Data(closestplr.PlayerId));
                             }
@@ -710,6 +712,7 @@ namespace CrowdedRoles
                             Vector2 HalfOldSize = new Vector2(RoleStuff.OldSize.x / 2, RoleStuff.OldSize.y / 2);
                             Rpc<ResizePlayer>.Instance.Send(new ResizePlayer.Data(HalfOldSize, PlayerControl.LocalPlayer.PlayerId));
                             RoleStuff.ShrinkerShrunken = true;
+
                         },
 
                         cooldown: 25f,
@@ -725,8 +728,51 @@ namespace CrowdedRoles
                         onEffectEnd: () =>
                         {
                             Rpc<ResizePlayer>.Instance.Send(new ResizePlayer.Data(RoleStuff.OldSize, PlayerControl.LocalPlayer.PlayerId));
+                            PlayerControl.LocalPlayer.gameObject.transform.position = new Vector3(PlayerControl.LocalPlayer.gameObject.transform.position.x, PlayerControl.LocalPlayer.gameObject.transform.position.y + 0.2f);
+                            Rpc<TeleportPlayer>.Instance.Send(new TeleportPlayer.Data(new Vector2(PlayerControl.LocalPlayer.gameObject.transform.position.x, PlayerControl.LocalPlayer.gameObject.transform.position.y), PlayerControl.LocalPlayer.PlayerId));
                             PlayerControl.GameOptions.PlayerSpeedMod = RoleStuff.OldSpeed;
                             RoleStuff.ShrinkerShrunken = false;
+                        }
+                    );
+
+                    return button;
+                }
+            }
+            public static class ShapeshiftButton
+            {
+                public static Reactor.Button.CooldownButton button(HudManager hudManager)
+                {
+
+                    Reactor.Button.CooldownButton button = new Reactor.Button.CooldownButton(
+                        onClick: () =>
+                        {
+                            byte target = PlayerControl.LocalPlayer.FindClosestTarget().PlayerId;
+                            Rpc<SwapEverything>.Instance.Send(new SwapEverything.Data(PlayerControl.LocalPlayer.PlayerId, target));
+                            if (GameData.Instance.GetPlayerById(target).Object.Is<Reflector>() && RoleStuff.ReflectorReflecting)
+                            {
+                                Rpc<SelfDestruct>.Instance.Send(new SelfDestruct.Data());
+                            }
+                            else
+                            {
+                                Rpc<Kill>.Instance.Send(new Kill.Data(target));
+                            }
+                            PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.GameOptions.KillCooldown);
+
+                        },
+
+                        cooldown: 25f,
+                        image: Properties.Resources.Shapeshift,
+                        positionOffset: new UnityEngine.Vector2(0.125f, 0.125f),
+                        () =>
+                        {
+                            return PlayerControl.LocalPlayer.Is<Shapeshifter>() && !PlayerControl.LocalPlayer.Data.IsDead && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started && !MeetingHud.Instance;
+
+                        },
+                        hudManager: hudManager,
+                        effectDuration: 0f,
+                        onEffectEnd: () =>
+                        {
+                            
                         }
                     );
 
@@ -805,6 +851,7 @@ namespace CrowdedRoles
                         onClick: () =>
                         {
                             RoleStuff.OldSpeedTroll = PlayerControl.GameOptions.PlayerSpeedMod;
+                            RoleStuff.TrollSpeedActive = true;
                             Rpc<SetSpeed>.Instance.Send(new SetSpeed.Data(PlayerControl.GameOptions.PlayerSpeedMod / 2));
                         },
 
@@ -820,6 +867,7 @@ namespace CrowdedRoles
                         effectDuration: 7f,
                         onEffectEnd: () =>
                         {
+                            RoleStuff.TrollSpeedActive = false;
                             Rpc<SetSpeed>.Instance.Send(new SetSpeed.Data(RoleStuff.OldSpeedTroll));
                         }
                     );
@@ -851,6 +899,7 @@ namespace CrowdedRoles
                                     RoleStuff.PlayerList.Add(i);
                                 }
                             }
+                            
                         },
 
                         cooldown: 35f,
