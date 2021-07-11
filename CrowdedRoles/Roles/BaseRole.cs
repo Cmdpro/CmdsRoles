@@ -67,6 +67,7 @@ namespace CrowdedRoles.Roles
         /// Be careful comparing it with local player, Host calls <c>CanKill(null)</c> on host-requested kill
         /// </summary>
         public virtual bool CanKill(PlayerControl? target) => false;
+        public virtual bool CanKillPeople { get; } = false;
 
         public virtual bool KillConditions(PlayerControl? target) => false;
         public virtual bool CanVent(Vent vent) => false;

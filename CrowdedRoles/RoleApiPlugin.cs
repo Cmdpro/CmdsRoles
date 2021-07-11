@@ -80,14 +80,25 @@ namespace CrowdedRoles
                             i.Visible = true;
                         } else
                         {
-                            if (!i.Data.IsDead && !i.Data.Disconnected)
+                            if (i != PlayerControl.LocalPlayer)
                             {
                                 i.Visible = false;
                             }
                         }
                     } else
                     {
-                        i.Visible = true;
+                        if (i != PlayerControl.LocalPlayer && !i.Data.IsDead && !i.Data.Disconnected)
+                        {
+                            i.Visible = true;
+                        }
+                    }
+                    if (PlayerControl.LocalPlayer.Data.IsDead)
+                    {
+                        PlayerControl.LocalPlayer.moveable = true;
+                        if (i.Data.IsDead)
+                        {
+                            i.Visible = true;
+                        }
                     }
                 }
                 if (RoleStuff.isProtected == true)

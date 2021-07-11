@@ -48,7 +48,7 @@ namespace CrowdedRoles.Patches
             public static void Postfix()
             {
                 if (PlayerControl.LocalPlayer != null &&
-                    (PlayerControl.LocalPlayer.GetRole()?.CanKill(null) ?? false)
+                    (PlayerControl.LocalPlayer.GetRole()?.CanKillPeople ?? false)
                     && Input.GetKeyDown(KeyCode.Q))
                 {
                     HudManager.Instance.KillButton.PerformKill();
@@ -119,7 +119,7 @@ namespace CrowdedRoles.Patches
                 BaseRole? role = PlayerControl.LocalPlayer.GetRole();
                 if (role != null)
                 {
-                    __instance.KillButton.gameObject.SetActive(isActive && !PlayerControl.LocalPlayer.Data.IsDead && role.CanKill(null));
+                    __instance.KillButton.gameObject.SetActive(isActive && !PlayerControl.LocalPlayer.Data.IsDead && role.CanKillPeople);
                 }
             }
 
@@ -144,7 +144,7 @@ namespace CrowdedRoles.Patches
                     BaseRole? role = __instance.GetRole();
                     if (role != null)
                     {
-                        HudManager.Instance.KillButton.gameObject.SetActive(role.CanKill(null));
+                        HudManager.Instance.KillButton.gameObject.SetActive(role.CanKillPeople);
                     }
                 }
             }
@@ -158,7 +158,7 @@ namespace CrowdedRoles.Patches
                     BaseRole? role = __instance.__4__this.GetRole();
                     if (role != null)
                     {
-                        HudManager.Instance.KillButton.gameObject.SetActive(role.CanKill(null));
+                        HudManager.Instance.KillButton.gameObject.SetActive(role.CanKillPeople);
                     }
                 }
             }

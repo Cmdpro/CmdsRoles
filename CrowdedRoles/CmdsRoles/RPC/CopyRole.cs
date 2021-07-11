@@ -44,7 +44,7 @@ namespace CmdsRoles
             RoleManager.PlayerRoles[innerNetObject.PlayerId] = GameData.Instance.GetPlayerById(data.Target).GetRole();
             if (GameData.Instance.GetPlayerById(data.Target).IsImpostor)
             {
-                innerNetObject.Data.IsImpostor = true;
+                //innerNetObject.Data.IsImpostor = true;
             }
 
 

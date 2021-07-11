@@ -28,8 +28,8 @@ namespace CrowdedRoles
         public override Visibility Visibility { get; } = Visibility.Team;
         public override string Description { get; } = "Kill crewmates and get a shorter cooldown";
         public override bool CanKill(PlayerControl? target) => !target.Data.IsDead && !target.Data.IsImpostor && target.GetRole().Team != Team.Impostor;
-        
-        
+        public override bool CanKillPeople => true;
+
         public override bool CanSabotage(SystemTypes? sabotage) => true;
         public override bool CanVent(Vent _) => true;
         public override Team Team { get; } = Team.Impostor;

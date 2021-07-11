@@ -390,7 +390,6 @@ namespace CrowdedRoles
                             {
                                 if (closestplr.Data.IsImpostor)
                                 {
-                                    PlayerControl.LocalPlayer.Data.IsImpostor = true;
                                     HudManager.Instance.KillButton.gameObject.SetActive(true);
                                 }
                                 Rpc<CopyRole>.Instance.Send(new CopyRole.Data(closestplr.PlayerId));
@@ -402,7 +401,7 @@ namespace CrowdedRoles
                         positionOffset: new UnityEngine.Vector2(0.125f, 0.125f),
                         () =>
                         {
-                            return PlayerControl.LocalPlayer.Is<Copier>() && !PlayerControl.LocalPlayer.Data.IsDead && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started && !MeetingHud.Instance;
+                            return false;
 
                         },
                         hudManager: hudManager,
