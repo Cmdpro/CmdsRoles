@@ -41,7 +41,7 @@ namespace CrowdedRoles.Rpc
                 return;
             }
             
-            if (!killer.CanKill(null) && !data.options.HasFlag(CustomMurderOptions.Force))
+            if (!killer.GetRole().CanKill(null) && !data.options.HasFlag(CustomMurderOptions.Force))
             {
                 RoleApiPlugin.Logger.LogWarning($"{killer.PlayerId} tried to kill {data.target.PlayerId} with no kill perms");
                 return;

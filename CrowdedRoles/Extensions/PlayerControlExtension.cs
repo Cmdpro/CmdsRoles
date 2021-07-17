@@ -185,7 +185,7 @@ namespace CrowdedRoles.Extensions
             {
                 HudManager.Instance.TaskStuff.SetActive(true);
                 StatsManager.Instance.GamesStarted += 1;
-                if (player.Data.IsImpostor)
+                if (player.Data.IsImpostor || player.CanKill(null))
                 {
                     StatsManager.Instance.TimesImpostor += 1;
                     StatsManager.Instance.CrewmateStreak = 0;
@@ -416,23 +416,30 @@ namespace CrowdedRoles.Extensions
                 return null;
             }
 
-            PlayerControl? result = null;
-            Vector2 myPos = me.GetTruePosition();
-            float lowestDistance =
-                GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, GameOptionsData.KillDistances.Length-1)];
-            
-            foreach (PlayerControl player in PlayerControl.AllPlayerControls)
+            PlayerControl result = null;
+            float num = GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, 2)];
+            Vector2 truePosition = PlayerControl.LocalPlayer.GetTruePosition();
+            Il2CppSystem.Collections.Generic.List<GameData.PlayerInfo> allPlayers = GameData.Instance.AllPlayers;
+            for (int i = 0; i < allPlayers.Count; i++)
             {
-                if(player.Data == null || player.Data.Disconnected || player != me || !role.CanKill(player)) continue;
-                Vector2 vec = player.GetTruePosition() - myPos;
-                float magnitude = vec.magnitude;
-                if (magnitude <= lowestDistance && !PhysicsHelpers.AnyNonTriggersBetween(myPos, vec.normalized,
-                    magnitude, Constants.ShipAndObjectsMask))
+                GameData.PlayerInfo playerInfo = allPlayers[i];
+
+                if (!playerInfo.Disconnected && playerInfo.PlayerId != PlayerControl.LocalPlayer.PlayerId && !playerInfo.IsDead || PlayerControl.LocalPlayer.GetRole().KillConditions(playerInfo.Object))
                 {
-                    result = player;
-                    lowestDistance = magnitude;
+                    PlayerControl @object = playerInfo.Object;
+                    if (@object)
+                    {
+                        Vector2 vector = @object.GetTruePosition() - truePosition;
+                        float magnitude = vector.magnitude;
+                        if (magnitude <= num && !PhysicsHelpers.AnyNonTriggersBetween(truePosition, vector.normalized, magnitude, Constants.ShipAndObjectsMask))
+                        {
+                            result = @object;
+                            num = magnitude;
+                        }
+                    }
                 }
             }
+            return result;
 
             return result;
         }

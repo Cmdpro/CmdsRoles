@@ -18,10 +18,12 @@ namespace CmdsRoles
         public readonly struct Data
         {
             public readonly byte Target;
+            public readonly byte Type;
 
-            public Data(byte Target)
+            public Data(byte Target, byte Type)
             {
                 this.Target = Target;
+                this.Type = Type;
             }
         }
 
@@ -30,11 +32,12 @@ namespace CmdsRoles
         public override void Write(MessageWriter writer, Data data)
         {
             writer.Write(data.Target);
+            writer.Write(data.Type);
         }
 
         public override Data Read(MessageReader reader)
         {
-            return new Data(reader.ReadByte());
+            return new Data(reader.ReadByte(), reader.ReadByte());
         }
 
         public override void Handle(PlayerControl innerNetObject, Data data)
@@ -44,10 +47,18 @@ namespace CmdsRoles
             if (data.Target == 1)
             {
                 innerNetObject.Visible = false;
+                if (data.Type == 1)
+                {
+                    RoleStuff.InvisibleNinja = innerNetObject;
+                }
             }
             if (data.Target == 0)
             {
                 innerNetObject.Visible = true;
+                if (data.Type == 1)
+                {
+                    RoleStuff.InvisibleNinja = null;
+                }
             }
             //.SetActive(false);
             //PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);

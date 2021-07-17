@@ -73,7 +73,7 @@ namespace CrowdedRoles.Patches
                 }
                 
                 PlayerControl.LocalPlayer.SetKillTimer(10f);
-                HudManager.Instance.KillButton.gameObject.SetActive(myRole.CanKillPeople);
+                HudManager.Instance.KillButton.gameObject.SetActive(myRole.CanKill(null));
                 
 
                 List<PlayerControl> myTeam = PlayerControl.AllPlayerControls.ToArray()

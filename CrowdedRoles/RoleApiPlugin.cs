@@ -71,6 +71,10 @@ namespace CrowdedRoles
                     PlayerControl.LocalPlayer.gameObject.transform.localScale = RoleStuff.OldSize;
                     PlayerControl.GameOptions.PlayerSpeedMod = RoleStuff.OldSpeed;
                 }
+                if (RoleStuff.InvisibleNinja != null)
+                {
+                    RoleStuff.InvisibleNinja.Visible = false;
+                }
                 foreach (PlayerControl i in PlayerControl.AllPlayerControls)
                 {
                     if (i.inVent)
@@ -87,7 +91,7 @@ namespace CrowdedRoles
                         }
                     } else
                     {
-                        if (i != PlayerControl.LocalPlayer && !i.Data.IsDead && !i.Data.Disconnected)
+                        if (i != PlayerControl.LocalPlayer && !i.Data.IsDead && !i.Data.Disconnected && RoleStuff.InvisibleNinja != i)
                         {
                             i.Visible = true;
                         }

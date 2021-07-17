@@ -484,6 +484,35 @@ namespace CrowdedRoles
                     return button;
                 }
             }
+            public static class InvisibleButton
+            {
+                public static Reactor.Button.CooldownButton button(HudManager hudManager)
+                {
+
+                    Reactor.Button.CooldownButton button = new Reactor.Button.CooldownButton(
+                        onClick: () =>
+                        {
+                            Rpc<ToggleInvisible>.Instance.Send(new ToggleInvisible.Data(1, 1));
+                        },
+
+                        cooldown: 30f,
+                        image: Properties.Resources.NinjaInvis,
+                        positionOffset: new UnityEngine.Vector2(0.125f, 0.125f),
+                        () =>
+                        {
+                            return PlayerControl.LocalPlayer.Is<Ninja>() && !PlayerControl.LocalPlayer.Data.IsDead && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started && !MeetingHud.Instance;
+                        },
+                        hudManager: hudManager,
+                        effectDuration: 15f,
+                        onEffectEnd: () =>
+                        {
+                            Rpc<ToggleInvisible>.Instance.Send(new ToggleInvisible.Data(0, 1));
+                        }
+                    );
+
+                    return button;
+                }
+            }
             public static class DetSearchButton
             {
                 public static Reactor.Button.CooldownButton button(HudManager hudManager)

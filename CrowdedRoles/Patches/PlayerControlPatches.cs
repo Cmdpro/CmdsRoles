@@ -21,6 +21,7 @@ namespace CrowdedRoles.Patches
 
             if (__instance.AmOwner && role != null) // probably will be reworked
             {
+                //idk why this isnt working
                 if (role.CanKill(null) &&  __instance.CanMove && !__instance.Data.IsDead)
                 {
                     __instance.SetKillTimer(Mathf.Max(0, __instance.killTimer - Time.fixedDeltaTime));
@@ -30,6 +31,10 @@ namespace CrowdedRoles.Patches
                 {
                     HudManager.Instance.KillButton.SetTarget(null);
                 }
+            }
+            if (HudManager.Instance.KillButton.CurrentTarget == RoleStuff.InvisibleNinja)
+            {
+                HudManager.Instance.KillButton.SetTarget(null);
             }
         }
         

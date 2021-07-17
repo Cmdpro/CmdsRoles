@@ -12,6 +12,7 @@ using CmdsRoles;
 using CrowdedRoles.Components;
 using static CrowdedRoles.CrowdedRoles;
 using System.Linq;
+using CrowdedRoles.Roles;
 
 namespace CrowdedRoles
 {
@@ -71,6 +72,7 @@ namespace CrowdedRoles
         public static float ShrinkerSpeed;
         public static bool TrollSpeedActive;
         public static bool ShrinkerSpeedActive;
+        public static PlayerControl? InvisibleNinja;
 
         public static Sprite ConvertToSprite(Byte[] bytes, int PixelsPerUnit, Vector2 pivot)
         {
@@ -121,6 +123,7 @@ namespace CrowdedRoles
                     RoleStuff.MaxVampireCooldown -= 1;
                 }
             }
+            PlayerControl.LocalPlayer.SetKillTimer(PlayerControl.GameOptions.KillCooldown);
             HudPatch.Dissapear.Timer = HudPatch.Dissapear.MaxTimer;
             HudPatch.Curse.Timer = HudPatch.Curse.MaxTimer;
             HudPatch.Shapeshift.Timer = HudPatch.Shapeshift.MaxTimer;
