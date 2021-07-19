@@ -12,10 +12,6 @@ namespace CrowdedRoles.Components
         {
             //OnValueChanged = v => RoleApiPlugin.Logger.LogDebug($"new test bool: {v}")
         };
-        public static CustomToggleOption CopierActive { get; } = new("Copier")
-        {
-            //OnValueChanged = v => RoleApiPlugin.Logger.LogDebug($"new test bool: {v}")
-        };
         public static CustomToggleOption CurserActive { get; } = new("Curser")
         {
             //OnValueChanged = v => RoleApiPlugin.Logger.LogDebug($"new test bool: {v}")
@@ -108,7 +104,6 @@ namespace CrowdedRoles.Components
         {
             new OptionPluginWrapper(plugin)
                 .AddCustomOption(BlinderActive)
-                .AddCustomOption(CopierActive)
                 .AddCustomOption(CurserActive)
                 .AddCustomOption(DetectiveActive)
                 .AddCustomOption(DissapearerActive)
