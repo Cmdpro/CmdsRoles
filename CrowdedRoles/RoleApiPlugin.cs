@@ -94,6 +94,9 @@ namespace CrowdedRoles
                         if (i != PlayerControl.LocalPlayer && !i.Data.IsDead && !i.Data.Disconnected && RoleStuff.InvisibleNinja != i)
                         {
                             i.Visible = true;
+                        } else if (i != PlayerControl.LocalPlayer && PlayerControl.LocalPlayer.Is<Seer>() && !i.Data.Disconnected && RoleStuff.InvisibleNinja != i)
+                        {
+                            i.Visible = true;
                         }
                     }
                     if (PlayerControl.LocalPlayer.Data.IsDead)
