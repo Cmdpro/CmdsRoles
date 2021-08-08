@@ -83,6 +83,17 @@ namespace CrowdedRoles
             Sprite sp = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), pivot, PixelsPerUnit);
             return sp;
         }
+        public static PlayerControl FindRole<T>() where T : BaseRole
+        {
+            foreach (PlayerControl i in PlayerControl.AllPlayerControls)
+            {
+                if (i.Is<T>())
+                {
+                    return i;
+                }
+            }
+            return null;
+        }
         public static void StartGameStuff()
         {
             BothGameStuff();
@@ -273,12 +284,12 @@ namespace CrowdedRoles
         
         public static bool Prefix(ShipStatus __instance)
         {
-            //Criteria(__instance);
+            Criteria(__instance);
             if (__instance.gameObject.GetComponent<InnerNet.InnerNetObject>() == null)
             {
                 UnityEngine.Debug.Log("There is no component");
             }
-            return true;
+            return false;
         }
         public static void Criteria(ShipStatus __instance)
         {
@@ -380,7 +391,14 @@ namespace CrowdedRoles
                             endReason = GameOverReason.ImpostorByVote;
                             break;
                     }
-                    ShipStatus.RpcEndGame(endReason, !SaveManager.BoughtNoAds);
+                    if (!RoleStuff.FindRole<Survivor>().Data.IsDead)
+                    {
+                        PlayerControl.LocalPlayer.RpcCustomEndGame<Survivor.SurvivorWon>();
+                    }
+                    else
+                    {
+                        ShipStatus.RpcEndGame(endReason, !SaveManager.BoughtNoAds);
+                    }
                     return;
                 }
                 DestroyableSingleton<HudManager>.Instance.ShowPopUp(DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.GameOverImpostorKills, Array.Empty<Il2CppSystem.Object>()));

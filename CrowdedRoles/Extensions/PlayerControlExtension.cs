@@ -52,6 +52,8 @@ namespace CrowdedRoles.Extensions
         public static bool Is<T>(this PlayerControl player) where T : BaseRole
             => player.GetRole<T>() != null;
 
+        
+
         public static bool Is<T>(this GameData.PlayerInfo player) where T : BaseRole
             => player.GetRole<T>() != null;
 

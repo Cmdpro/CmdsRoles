@@ -117,7 +117,7 @@ namespace CrowdedRoles
                         PlayerControl.LocalPlayer.nameText.color = new Color((0.0f / 0.0f), (232.0f / 232.0f), (46.0f / 46.0f), 1);
                         Rpc<Revive>.Instance.Send(new Revive.Data(PlayerControl.LocalPlayer.PlayerId, 1, new Vector2(0, 0)));
                         RoleStuff.isProtected = false;
-
+                        Rpc<UnProtect>.Instance.Send(new UnProtect.Data(PlayerControl.LocalPlayer.PlayerId));
                     }
                 }
                 if (PlayerControl.LocalPlayer.Data.IsDead)

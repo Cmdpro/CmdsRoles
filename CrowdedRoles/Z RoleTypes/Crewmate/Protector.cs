@@ -43,6 +43,10 @@ namespace CrowdedRoles
             var result = holders.Crewmates.OrderBy(_ => rand.Next()).Take(active).ToList();
             return result;
         }
+        public override void OnRoleAssign(PlayerControl player)
+        {
+            RoleStuff.hasProtected = false;
+        }
 
 
 

@@ -249,6 +249,7 @@ namespace CrowdedRoles
                         onClick: () =>
                         {
                             closestplr = FindClosestTargetAll();
+                            RoleStuff.hasProtected = true;
                             Rpc<Protect>.Instance.Send(new Protect.Data(closestplr.PlayerId));
                         },
 
@@ -257,14 +258,14 @@ namespace CrowdedRoles
                         positionOffset: new UnityEngine.Vector2(0.125f, 0.125f),
                         () =>
                         {
-                            return PlayerControl.LocalPlayer.Is<Protector>() && !PlayerControl.LocalPlayer.Data.IsDead && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started && !MeetingHud.Instance;
+                            return PlayerControl.LocalPlayer.Is<Protector>() && !PlayerControl.LocalPlayer.Data.IsDead && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started && !MeetingHud.Instance && !RoleStuff.hasProtected;
 
                         },
                         hudManager: hudManager,
-                        effectDuration: 45f,
+                        effectDuration: 0f,
                         onEffectEnd: () =>
                         {
-                            Rpc<UnProtect>.Instance.Send(new UnProtect.Data(closestplr.PlayerId));
+                            
                         }
                     );
 
