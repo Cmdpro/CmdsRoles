@@ -29,7 +29,7 @@ namespace CrowdedRoles
         public override string Description { get; } = "Don't die to win";
         public override bool CanKill(PlayerControl? target) => false;
         public override bool CanSabotage(SystemTypes? sabotage) => false;
-        public override bool CanVent(Vent _) => true;
+        public override bool CanVent(Vent _) => false;
         public override Team Team { get; } = Team.Alone;
 
         [RegisterCustomGameOverReason]
