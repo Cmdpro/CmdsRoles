@@ -321,9 +321,8 @@ namespace CrowdedRoles
             int num = 0;
             int num2 = 0;
             int num3 = 0;
-            for (int i = 0; i < GameData.Instance.PlayerCount; i++)
+            foreach (GameData.PlayerInfo playerInfo in GameData.Instance.AllPlayers)
             {
-                GameData.PlayerInfo playerInfo = GameData.Instance.AllPlayers[i];
                 if (!playerInfo.Disconnected)
                 {
                     if (playerInfo.IsImpostor)
@@ -355,8 +354,6 @@ namespace CrowdedRoles
                 ShipStatus.ReviveEveryone();
                 return;
             }
-            else
-            {
                 if (num > num2)
                 {
                     if (!DestroyableSingleton<TutorialManager>.InstanceExists)
@@ -375,7 +372,7 @@ namespace CrowdedRoles
                     }
                     return;
                 }
-                if (num2 <= num)
+                if (num2 >= num)
                 {
                     __instance.gameObject.GetComponent<InnerNet.InnerNetObject>().enabled = false;
                     GameOverReason endReason;
@@ -404,7 +401,6 @@ namespace CrowdedRoles
                 DestroyableSingleton<HudManager>.Instance.ShowPopUp(DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.GameOverImpostorKills, Array.Empty<Il2CppSystem.Object>()));
                 ShipStatus.ReviveEveryone();
                 return;
-            }
         }
     }
 }
