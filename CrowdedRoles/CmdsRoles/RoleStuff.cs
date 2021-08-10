@@ -375,7 +375,7 @@ namespace CrowdedRoles
                     }
                     return;
                 }
-                if (!DestroyableSingleton<TutorialManager>.InstanceExists)
+                if (num2 <= num)
                 {
                     __instance.gameObject.GetComponent<InnerNet.InnerNetObject>().enabled = false;
                     GameOverReason endReason;
