@@ -108,6 +108,10 @@ namespace CrowdedRoles.Components
         {
             //OnValueChanged = v => RoleApiPlugin.Logger.LogDebug($"new test bool: {v}")
         };
+        public static CustomToggleOption ViewerActive { get; } = new("Viewer")
+        {
+            //OnValueChanged = v => RoleApiPlugin.Logger.LogDebug($"new test bool: {v}")
+        };
         public static void RegisterOptions(BasePlugin plugin)
         {
             new OptionPluginWrapper(plugin)
@@ -136,6 +140,7 @@ namespace CrowdedRoles.Components
                 .AddCustomOption(NinjaActive)
                 .AddCustomOption(SeerActive)
                 .AddCustomOption(SurvivorActive)
+                .AddCustomOption(ViewerActive)
                 ;
             // OR
             // new OptionPluginWrapper(plugin)

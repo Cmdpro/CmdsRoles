@@ -624,7 +624,7 @@ namespace CrowdedRoles
                             var closestplr = PlayerControl.LocalPlayer.FindClosestTarget();
                             if (closestplr != null)
                             {
-                                RoleStuff.BlindTimer = 5f;
+                                RoleStuff.BlindTimer = 0f;
                                 RoleStuff.ReadyToBlind = true;
                                 RoleStuff.BlindedPerson = closestplr.PlayerId;
                             }

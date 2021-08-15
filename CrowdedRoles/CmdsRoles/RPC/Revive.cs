@@ -51,7 +51,7 @@ namespace CmdsRoles
             //GameOptions.PlayerSpeedMod
             
             GameData.Instance.GetPlayerById(data.Target).Object.Revive();
-            innerNetObject.nameText.color = new Color((0.0f / 0.0f), (232.0f / 232.0f), (46.0f / 46.0f), 1);
+            GameData.Instance.GetPlayerById(data.Target).Object.nameText.color = new Color((0.0f / 0.0f), (232.0f / 232.0f), (46.0f / 46.0f), 1);
             if (data.Type == 1)
             {
                 if (PlayerControl.LocalPlayer.Is<Protector>())

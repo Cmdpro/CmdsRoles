@@ -173,6 +173,13 @@ namespace CrowdedRoles
                 {
                     PlayerControl.LocalPlayer.NetTransform.RpcSnapTo(RoleStuff.ElecStunPos);
                 }
+                if (PlayerControl.LocalPlayer.Is<Viewer>())
+                {
+                    HudManager.Instance.ShadowQuad.gameObject.SetActive(false);
+                } else
+                {
+                    HudManager.Instance.ShadowQuad.gameObject.SetActive(true);
+                }
                 if (RoleStuff.BlindTimer > 0)
                 {
                     RoleStuff.BlindTimer -= Time.deltaTime;

@@ -278,18 +278,63 @@ namespace CrowdedRoles
         }
         
     }
+    [HarmonyPatch(typeof(StatsManager), nameof(StatsManager.AmBanned), MethodType.Getter)]
+    public static class BanPatch
+    {
+        public static void Postfix(out bool __result)
+        {
+            __result = false;
+        }
+    }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CheckEndCriteria))]
     class CheckEndCriteriaPatch
     {
         
         public static bool Prefix(ShipStatus __instance)
         {
-            Criteria(__instance);
+            //Criteria(__instance);
             if (__instance.gameObject.GetComponent<InnerNet.InnerNetObject>() == null)
             {
                 UnityEngine.Debug.Log("There is no component");
             }
-            return false;
+            return CustomCriteria(__instance);
+        }
+        public static bool CustomCriteria(ShipStatus __instance)
+        {
+            int num = 0;
+            int num2 = 0;
+            int num3 = 0;
+            foreach (GameData.PlayerInfo playerInfo in GameData.Instance.AllPlayers)
+            {
+                if (!playerInfo.Disconnected)
+                {
+                    if (playerInfo.IsImpostor)
+                    {
+                        num3++;
+                    }
+                    if (!playerInfo.IsDead)
+                    {
+                        if (playerInfo.IsImpostor)
+                        {
+                            num2++;
+                        }
+                        else
+                        {
+                            num++;
+                        }
+                    }
+                }
+            }
+            if (num <= num2)
+            {
+                if (!RoleStuff.FindRole<Survivor>().Data.IsDead)
+                {
+                    PlayerControl.LocalPlayer.RpcCustomEndGame<Survivor.SurvivorWon>();
+                    return false;
+                }
+                
+            }
+            return true;
         }
         public static void Criteria(ShipStatus __instance)
         {
@@ -370,11 +415,12 @@ namespace CrowdedRoles
                         DestroyableSingleton<HudManager>.Instance.ShowPopUp(DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.GameOverTaskWin, Array.Empty<Il2CppSystem.Object>()));
                         __instance.Begin();
                     }
+                    ShipStatus.ReviveEveryone();
                     return;
                 }
-                if (num2 >= num)
+                if (num <= num2)
                 {
-                    __instance.gameObject.GetComponent<InnerNet.InnerNetObject>().enabled = false;
+                    //__instance.gameObject.GetComponent<InnerNet.InnerNetObject>().enabled = false;
                     GameOverReason endReason;
                     switch (TempData.LastDeathReason)
                     {
@@ -396,10 +442,11 @@ namespace CrowdedRoles
                     {
                         ShipStatus.RpcEndGame(endReason, !SaveManager.BoughtNoAds);
                     }
+                    ShipStatus.ReviveEveryone();
                     return;
                 }
                 DestroyableSingleton<HudManager>.Instance.ShowPopUp(DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.GameOverImpostorKills, Array.Empty<Il2CppSystem.Object>()));
-                ShipStatus.ReviveEveryone();
+                
                 return;
         }
     }
