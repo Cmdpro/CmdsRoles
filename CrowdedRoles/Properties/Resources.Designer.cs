@@ -83,9 +83,29 @@ namespace CrowdedRoles.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Arrow {
+            get {
+                object obj = ResourceManager.GetObject("Arrow", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Blindfold {
             get {
                 object obj = ResourceManager.GetObject("Blindfold", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] BodyFind {
+            get {
+                object obj = ResourceManager.GetObject("BodyFind", resourceCulture);
                 return ((byte[])(obj));
             }
         }

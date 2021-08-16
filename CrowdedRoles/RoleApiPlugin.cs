@@ -176,6 +176,7 @@ namespace CrowdedRoles
                 if (PlayerControl.LocalPlayer.Is<Viewer>())
                 {
                     HudManager.Instance.ShadowQuad.gameObject.SetActive(false);
+
                 } else
                 {
                     HudManager.Instance.ShadowQuad.gameObject.SetActive(true);

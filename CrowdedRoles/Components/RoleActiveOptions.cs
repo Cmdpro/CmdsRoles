@@ -112,6 +112,10 @@ namespace CrowdedRoles.Components
         {
             //OnValueChanged = v => RoleApiPlugin.Logger.LogDebug($"new test bool: {v}")
         };
+        public static CustomToggleOption BodyFinderActive { get; } = new("Body Finder")
+        {
+            //OnValueChanged = v => RoleApiPlugin.Logger.LogDebug($"new test bool: {v}")
+        };
         public static void RegisterOptions(BasePlugin plugin)
         {
             new OptionPluginWrapper(plugin)
@@ -141,6 +145,7 @@ namespace CrowdedRoles.Components
                 .AddCustomOption(SeerActive)
                 .AddCustomOption(SurvivorActive)
                 .AddCustomOption(ViewerActive)
+                .AddCustomOption(BodyFinderActive)
                 ;
             // OR
             // new OptionPluginWrapper(plugin)

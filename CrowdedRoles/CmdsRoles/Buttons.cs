@@ -957,6 +957,54 @@ namespace CrowdedRoles
                     return button;
                 }
             }
+            public static class BodyFindButton
+            {
+                public static Reactor.Button.CooldownButton button(HudManager hudManager)
+                {
+
+                    Reactor.Button.CooldownButton button = new Reactor.Button.CooldownButton(
+                        onClick: () =>
+                        {
+                            var foundBodies = GameObject.FindObjectsOfType<DeadBody>();
+                            foreach (DeadBody i in foundBodies)
+                            {
+                                var Arrow = new GameObject("Arrow" + i.ParentId);
+                                Arrow.AddComponent<SpriteRenderer>().sprite = RoleStuff.ConvertToSprite(Properties.Resources.Arrow, 100, new Vector2(0.5f, 0.5f));
+                                Arrow.AddComponent<ArrowBehaviour>();
+                                Arrow.GetComponent<ArrowBehaviour>().target = i.transform.position;
+
+                                Arrow.GetComponent<SpriteRenderer>().sortingOrder = 255;
+                                Vector3 pos = PlayerControl.LocalPlayer.transform.position;
+                                //Arrow.transform.position = new Vector3(pos.x + 5, pos.y + 5, pos.z);
+                                RoleStuff.ArrowBodyList.Add(Arrow.GetComponent<ArrowBehaviour>());
+                            }
+
+                        },
+
+                        cooldown: 35f,
+                        image: Properties.Resources.BodyFind,
+                        positionOffset: new UnityEngine.Vector2(0.125f, 0.125f),
+                        () =>
+                        {
+                            return PlayerControl.LocalPlayer.Is<BodyFinder>() && !PlayerControl.LocalPlayer.Data.IsDead && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started && !MeetingHud.Instance;
+
+                        },
+                        hudManager: hudManager,
+                        effectDuration: 15f,
+                        onEffectEnd: () =>
+                        {
+                            foreach (ArrowBehaviour i in RoleStuff.ArrowBodyList)
+                            {
+                                i.gameObject.GetComponent<SpriteRenderer>().sprite = null;
+                                GameObject.Destroy(i.gameObject);
+                            }
+                            RoleStuff.ArrowList.Clear();
+                        }
+                    );
+
+                    return button;
+                }
+            }
         }
     }
 }

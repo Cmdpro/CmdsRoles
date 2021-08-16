@@ -73,6 +73,9 @@ namespace CrowdedRoles
         public static bool TrollSpeedActive;
         public static bool ShrinkerSpeedActive;
         public static PlayerControl? InvisibleNinja;
+        public static float hitUpdateTimer = 0f;
+        public static Collider2D[] hitColliders;
+        public static List<ArrowBehaviour> ArrowBodyList = new List<ArrowBehaviour>();
 
         public static Sprite ConvertToSprite(Byte[] bytes, int PixelsPerUnit, Vector2 pivot)
         {
@@ -83,17 +86,7 @@ namespace CrowdedRoles
             Sprite sp = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), pivot, PixelsPerUnit);
             return sp;
         }
-        public static PlayerControl FindRole<T>() where T : BaseRole
-        {
-            foreach (PlayerControl i in PlayerControl.AllPlayerControls)
-            {
-                if (i.Is<T>())
-                {
-                    return i;
-                }
-            }
-            return null;
-        }
+        
         public static void StartGameStuff()
         {
             BothGameStuff();
@@ -276,7 +269,28 @@ namespace CrowdedRoles
             }
             return result;
         }
-        
+        public static PlayerControl? FindRole<T>() where T : BaseRole
+        {
+            foreach (PlayerControl i in PlayerControl.AllPlayerControls)
+            {
+                if (i.Is<T>())
+                {
+                    return i;
+                }
+            }
+            return null;
+        }
+        public static bool PlayerWithRoleExists<T>() where T : BaseRole
+        {
+            foreach (PlayerControl i in PlayerControl.AllPlayerControls)
+            {
+                if (i.Is<T>())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
     [HarmonyPatch(typeof(StatsManager), nameof(StatsManager.AmBanned), MethodType.Getter)]
     public static class BanPatch
@@ -299,6 +313,7 @@ namespace CrowdedRoles
             }
             return CustomCriteria(__instance);
         }
+        
         public static bool CustomCriteria(ShipStatus __instance)
         {
             int num = 0;
@@ -327,11 +342,16 @@ namespace CrowdedRoles
             }
             if (num <= num2)
             {
-                if (!RoleStuff.FindRole<Survivor>().Data.IsDead)
+                var survivor = RoleStuff.FindRole<Survivor>();
+                if (survivor != null)
                 {
-                    PlayerControl.LocalPlayer.RpcCustomEndGame<Survivor.SurvivorWon>();
-                    return false;
+                    if (!survivor.Data.IsDead)
+                    {
+                        PlayerControl.LocalPlayer.RpcCustomEndGame<Survivor.SurvivorWon>();
+                        return false;
+                    }
                 }
+                    
                 
             }
             return true;

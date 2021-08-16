@@ -24,7 +24,7 @@ namespace CrowdedRoles.Patches
                 //idk why this isnt working
                 if (role.CanKill(null) &&  __instance.CanMove && !__instance.Data.IsDead)
                 {
-                    __instance.SetKillTimer(Mathf.Max(0, __instance.killTimer - Time.fixedDeltaTime));
+                    //__instance.SetKillTimer(Mathf.Max(0, __instance.killTimer - Time.fixedDeltaTime));
                     HudManager.Instance.KillButton.SetTarget(__instance.CustomFindClosetTarget());
                 }
                 else

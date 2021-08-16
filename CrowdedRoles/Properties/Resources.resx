@@ -124,8 +124,14 @@
   <data name="AntiKill" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>antikill.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Arrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>arrow.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Blindfold" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>blindfold.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="BodyFind" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>bodyfind.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Cameras" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>cameras.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
