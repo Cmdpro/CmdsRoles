@@ -208,6 +208,9 @@
   <data name="Track" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>track.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Transform" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>transform.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="TrollTp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>trolltp.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

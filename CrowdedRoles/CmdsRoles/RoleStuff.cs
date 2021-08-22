@@ -76,6 +76,7 @@ namespace CrowdedRoles
         public static float hitUpdateTimer = 0f;
         public static Collider2D[] hitColliders;
         public static List<ArrowBehaviour> ArrowBodyList = new List<ArrowBehaviour>();
+        public static PlayerControl? SwappedPerson;
 
         public static Sprite ConvertToSprite(Byte[] bytes, int PixelsPerUnit, Vector2 pivot)
         {

@@ -1005,6 +1005,41 @@ namespace CrowdedRoles
                     return button;
                 }
             }
+            public static class SwapBodyButton
+            {
+                public static Reactor.Button.CooldownButton button(HudManager hudManager)
+                {
+
+                    Reactor.Button.CooldownButton button = new Reactor.Button.CooldownButton(
+                        onClick: () =>
+                        {
+                            System.Random rand = new System.Random();
+                            RoleStuff.SwappedPerson = PlayerControl.AllPlayerControls[rand.Next(0, GameData.Instance.PlayerCount)];
+                            Rpc<SwapEverything>.Instance.Send(new SwapEverything.Data(PlayerControl.LocalPlayer.PlayerId, RoleStuff.SwappedPerson.PlayerId));
+                            Rpc<TeleportPersonToPerson>.Instance.Send(new TeleportPersonToPerson.Data(PlayerControl.LocalPlayer.PlayerId, RoleStuff.SwappedPerson.PlayerId));
+                        },
+
+                        cooldown: 35f,
+                        image: Properties.Resources.Transform,
+                        positionOffset: new UnityEngine.Vector2(0.125f, 0.125f),
+                        () =>
+                        {
+                            return PlayerControl.LocalPlayer.Is<Swapper>() && !PlayerControl.LocalPlayer.Data.IsDead && AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started && !MeetingHud.Instance;
+
+                        },
+                        hudManager: hudManager,
+                        effectDuration: 15f,
+                        onEffectEnd: () =>
+                        {
+                            Rpc<SwapEverything>.Instance.Send(new SwapEverything.Data(PlayerControl.LocalPlayer.PlayerId, RoleStuff.SwappedPerson.PlayerId));
+                            Rpc<TeleportPersonToPerson>.Instance.Send(new TeleportPersonToPerson.Data(PlayerControl.LocalPlayer.PlayerId, RoleStuff.SwappedPerson.PlayerId));
+                            RoleStuff.SwappedPerson = null;
+                        }
+                    );
+
+                    return button;
+                }
+            }
         }
     }
 }

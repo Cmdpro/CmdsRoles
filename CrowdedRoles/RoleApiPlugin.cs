@@ -297,7 +297,19 @@ namespace CrowdedRoles
                         PlayerControl.LocalPlayer.SetKillTimer(RoleStuff.MaxVampireCooldown);
                     }
                 }
-                
+                if (PlayerControl.LocalPlayer.Data.IsDead && RoleStuff.SwappedPerson != null && PlayerControl.LocalPlayer.Is<Swapper>())
+                {
+                    Rpc<SwapEverything>.Instance.Send(new SwapEverything.Data(PlayerControl.LocalPlayer.PlayerId, RoleStuff.SwappedPerson.PlayerId));
+                    Rpc<TeleportPersonToPerson>.Instance.Send(new TeleportPersonToPerson.Data(PlayerControl.LocalPlayer.PlayerId, RoleStuff.SwappedPerson.PlayerId));
+                    RoleStuff.SwappedPerson = null;
+                }
+                if (RoleStuff.SwappedPerson.Data.IsDead && RoleStuff.SwappedPerson != null && PlayerControl.LocalPlayer.Is<Swapper>())
+                {
+                    Rpc<SwapEverything>.Instance.Send(new SwapEverything.Data(PlayerControl.LocalPlayer.PlayerId, RoleStuff.SwappedPerson.PlayerId));
+                    Rpc<TeleportPersonToPerson>.Instance.Send(new TeleportPersonToPerson.Data(PlayerControl.LocalPlayer.PlayerId, RoleStuff.SwappedPerson.PlayerId));
+                    RoleStuff.SwappedPerson = null;
+                    RoleStuff.ResetButton(HudPatch.SwapBody);
+                }
 
 
                 //if (CrowdedRoles.askForCooldown == true)

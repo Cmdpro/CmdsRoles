@@ -116,6 +116,10 @@ namespace CrowdedRoles.Components
         {
             //OnValueChanged = v => RoleApiPlugin.Logger.LogDebug($"new test bool: {v}")
         };
+        public static CustomToggleOption SwapperActive { get; } = new("Swapper")
+        {
+            //OnValueChanged = v => RoleApiPlugin.Logger.LogDebug($"new test bool: {v}")
+        };
         public static void RegisterOptions(BasePlugin plugin)
         {
             new OptionPluginWrapper(plugin)
@@ -146,6 +150,7 @@ namespace CrowdedRoles.Components
                 .AddCustomOption(SurvivorActive)
                 .AddCustomOption(ViewerActive)
                 .AddCustomOption(BodyFinderActive)
+                .AddCustomOption(SwapperActive)
                 ;
             // OR
             // new OptionPluginWrapper(plugin)

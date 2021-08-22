@@ -363,6 +363,16 @@ namespace CrowdedRoles.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Transform {
+            get {
+                object obj = ResourceManager.GetObject("Transform", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] TrollTp {
             get {
                 object obj = ResourceManager.GetObject("TrollTp", resourceCulture);

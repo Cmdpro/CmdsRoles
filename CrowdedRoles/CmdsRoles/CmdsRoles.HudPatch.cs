@@ -39,6 +39,7 @@ namespace CrowdedRoles
             public static CooldownButton Shapeshift;
             public static CooldownButton NinjaInvis;
             public static CooldownButton BodyFind;
+            public static CooldownButton SwapBody;
 
             [HarmonyPatch(typeof(HudManager), nameof(HudManager.Start))]
             public static class HudManagerStart
@@ -71,6 +72,7 @@ namespace CrowdedRoles
                     Shapeshift = ShapeshiftButton.button(__instance);
                     NinjaInvis = InvisibleButton.button(__instance);
                     BodyFind = BodyFindButton.button(__instance);
+                    SwapBody = SwapBodyButton.button(__instance);
                 }
             }
 
